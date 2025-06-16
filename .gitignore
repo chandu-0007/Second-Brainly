@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Build output (compiled JS files)
+dist/
+build/
+
+# TypeScript cache and build artifacts
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*  # for .env.dev, .env.test, etc.
+
+# Log files
+logs/
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Ignore all compiled JS files (if you're not using a dist/ folder)
+*.js
+*.js.map
