@@ -1,6 +1,6 @@
 import { run, userModel, TagModel, contnetModel } from "./db";
 import express, { Response, Request } from "express"
-import dotenv from "dotenv"
+import dotenv, { parse } from "dotenv"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { authMiddleware } from "./auth";
@@ -163,10 +163,40 @@ app.post("/users/api/content", async (req: Request, res: Response) => {
 app.get("/users/api/content",async (req : Request , res  : Response)=>{
   const userId = req.userId ; 
   try{
-   const contents = await contnetModel.find({userId : userId})
+   const contents = await contnetModel.find({userId : userId}).populate('userId','username').populate('tags','title')
    console.log(contents);
+   res.status(200).json({
+    message:"The list of content of the user",
+    contenets : contents, 
+    success: true
+   })
   }catch(error){
-
+      res.status(411).json({
+        message : "Error ocuurs while database ot server",
+        success : false 
+      })
+  }
+})
+app.delete("/users/api/content/:contentId",async (req:Request , res : Response)=>{
+  const {contentId }= req.params ; 
+  try{
+     const findcontent =  await contnetModel.findOne({_id:contentId, userId: req.userId })
+     if(!findcontent){
+      res.status(200).json({
+        message : " There is  no cntent to delete",
+        success : true 
+      })
+     }
+     await contnetModel.deleteOne({_id :contentId , userId : req.userId})
+     res.status(200).json({
+       message : "Deleted the content that given Id ",
+       success: true 
+     })
+  }catch(error){
+    res.status(411).json({
+      message: "Proble while  deleting the content in the database",
+      successs : false 
+    })
   }
 })
 app.listen(process.env.PORT, () => {
