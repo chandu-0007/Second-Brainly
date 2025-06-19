@@ -1,33 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Button from './components/Button'
 import './App.css'
-
+import { ShareIcon } from './Icons/ShareIcon'
+import { PlusIcon } from './Icons/PlusIcon'
+import { SideBar } from './components/SideBar'
 function App() {
-  const [count, setCount] = useState(0)
-
+ const  onsubmit:()=>void = ()=>{
+   console.log("called the button component")
+ }
+ function ShareMethod():void {
+  console.log(" the method the shareMethod is called Now")
+ }
+ function siderBarfuc(e:string) {
+  console.log(e)
+ }
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='flex flex-row'>
+        {/* sideBar  */}
+        <div className='bg-white  w-80 shadow-xl h-screen '>
+          <SideBar funcall={siderBarfuc}/>
+        </div>
+        {/* main  content page  */}
+        <div className='p-8 bg-gray-50 w-full '>
+          <div className='flex justify-between items-center '>
+          <div className="border-none mt-2 h-8 justify-center items-center bg-white text-2xl text-black font-bold">
+            <span>All Notes </span>
+           </div>
+          <div className='flex '>
+            <Button varaient='secondary' size="lg" OnClickHandler={ShareMethod} 
+            text="Share Brain"
+             startIcon={<ShareIcon/>}
+             ></Button>
+            <Button varaient='primary' size="lg" OnClickHandler={onsubmit}
+            text='Add Content' startIcon={<PlusIcon/>}></Button>
+            </div>
+          </div>
+        </div>
+        
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      
+
     </>
   )
 }
