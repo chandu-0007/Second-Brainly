@@ -28,6 +28,7 @@ const contentSchema = new Schema({
   link : {type : String , required : true },
   type : {type : String , enum : contentType},
   title : {type : String , required : true },
+  Description :{type :String},
   tags : [{type:mongoose.Types.ObjectId,ref :TagModel}],
   userId : {type :mongoose.Types.ObjectId , ref: userModel,required : true }
 })

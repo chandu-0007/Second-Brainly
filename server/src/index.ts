@@ -8,6 +8,7 @@ dotenv.config()
 import { z } from "zod"
 import { readBuilderProgram } from "typescript";
 import { ObjectId } from "mongoose";
+import cors from "cors"
 const userObject = z.object({
   username: z.string(),
   email: z.string().email(),
@@ -16,6 +17,7 @@ const userObject = z.object({
 })
 type user = z.infer<typeof userObject>
 const app = express()
+app.use(cors())
 app.use(express.json())
 run()
 app.post("/users/register", async (req: Request, res: Response) => {
@@ -118,6 +120,7 @@ app.post("/users/api/content", async (req: Request, res: Response) => {
     link: string,
     type: string,
     title: string,
+    description : string , 
     tags: string[]
   }
   const contentDetails: contentType = req.body;
@@ -143,6 +146,7 @@ app.post("/users/api/content", async (req: Request, res: Response) => {
       link: contentDetails.link,
       type: contentDetails.type,
       title: contentDetails.title,
+      Description : contentDetails.description,
       tags:[...TagId],
       userId: userId
     })
@@ -163,11 +167,25 @@ app.post("/users/api/content", async (req: Request, res: Response) => {
 app.get("/users/api/content",async (req : Request , res  : Response)=>{
   const userId = req.userId ; 
   try{
-   const contents = await contnetModel.find({userId : userId}).populate('userId','username').populate('tags','title')
+   const contents = await contnetModel
+   .find({userId : userId})
+   .populate('userId','username')
+   .populate('tags','title')
+   .lean()
+
    console.log(contents);
+    const result = contents.map((content) => {
+      return {
+        ...content,
+        userId: (content.userId as any)?.username, // flatten username
+        tags: Array.isArray(content.tags)
+          ? content.tags.map((tag: any) => tag.title)
+          : [],
+      };
+    });
    res.status(200).json({
     message:"The list of content of the user",
-    contenets : contents, 
+    contents : result, 
     success: true
    })
   }catch(error){
