@@ -23,12 +23,12 @@ const TagSchema = new Schema({
 export const TagModel = model('Tag',TagSchema)
 
 // content schema and model 
-const contentType : string [] = ['image', 'video','audio','article']
+const contentType : string [] = ["document" , "tweet" , "youtube" , "link"]
 const contentSchema = new Schema({
   link : {type : String , required : true },
   type : {type : String , enum : contentType},
   title : {type : String , required : true },
-  Description :{type :String},
+  Description : {type :String},
   tags : [{type:mongoose.Types.ObjectId,ref :TagModel}],
   userId : {type :mongoose.Types.ObjectId , ref: userModel,required : true }
 })

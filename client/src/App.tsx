@@ -4,6 +4,7 @@ import { ShareIcon } from './Icons/ShareIcon'
 import { PlusIcon } from './Icons/PlusIcon'
 import { SideBar } from './components/SideBar'
 import { Home } from './components/Home'
+import {Routes, Route, Link  } from "react-router-dom";
 function App() {
  const  onsubmit:()=>void = ()=>{
    console.log("called the button component")
@@ -36,8 +37,10 @@ function App() {
             text='Add Content' startIcon={<PlusIcon/>}></Button>
             </div>
           </div>
-          <div className='m-6  w-full h-full '>
-            <Home/>
+          <div className='m-6 w-full h-full relative '>
+                  <Routes>
+                     <Route path='/courses' element={<Home/>}></Route>
+                  </Routes>
           </div>
         </div>
         
