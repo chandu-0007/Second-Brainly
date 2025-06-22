@@ -5,6 +5,9 @@ import { PlusIcon } from './Icons/PlusIcon'
 import { SideBar } from './components/SideBar'
 import { Home } from './components/Home'
 import {Routes, Route, Link  } from "react-router-dom";
+import { useState } from 'react'
+import { Login } from './components/Login'
+import { useAuth } from './components/useAuth'
 function App() {
  const  onsubmit:()=>void = ()=>{
    console.log("called the button component")
@@ -15,9 +18,11 @@ function App() {
  function siderBarfuc(e:string) {
   console.log(e)
  }
+const {isLogged} = useAuth()
+ 
   return (
-    <>
-      <div className='flex flex-row'>
+    <>{isLogged && <div>
+       <div className='flex flex-row'>
         {/* sideBar  */}
         <div className='bg-white  w-80 shadow-xl h-screen '>
           <SideBar funcall={siderBarfuc}/>
@@ -46,6 +51,10 @@ function App() {
         
       </div>
       
+    </div> }
+      <div>
+      <Login/>
+      </div>
 
     </>
   )

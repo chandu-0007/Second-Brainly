@@ -7,28 +7,33 @@ interface resProps {
     contents: contentProps[],
     success: boolean
 }
-
+const token = localStorage.getItem("token")
 export const Home = () => {
     const [contents, Setcontents] = useState<contentProps[]>([])
     const [ShowMsg , SetShowMsg]  = useState<string>("")
     useEffect(() => {
         const fecthData = async () => {
-            // const token = localStorage.getItem("token")
             const res = await axios.get<resProps>("http://localhost:3003/users/api/content", {
                 headers: {
-                  authorization:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODUwNTI0N2E1NmNjMGUxNjA0MmY0ODgiLCJpYXQiOjE3NTA0ODU1OTMsImV4cCI6MTc1MDQ4OTE5M30.yvgl5beZChINpPJwMQJeiSAmT-beQxLL2WEzw8no5DA"
+                  authorization:token
                 }
             })
             Setcontents(res.data.contents)
         }
         fecthData()
     }, [])
+ useEffect(() => {
+  if (ShowMsg) {
+    const timeout = setTimeout(() => SetShowMsg("112"), 3000);
+    return () => clearTimeout(timeout);
+  }
+}, [ShowMsg]);
 
 async function DeleteProps(id: string) {
   try {
     const res = await axios.delete(`http://localhost:3003/users/api/content/${id}`, {
       headers: {
-        authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODUwNTI0N2E1NmNjMGUxNjA0MmY0ODgiLCJpYXQiOjE3NTA0ODU1OTMsImV4cCI6MTc1MDQ4OTE5M30.yvgl5beZChINpPJwMQJeiSAmT-beQxLL2WEzw8no5DA"
+          authorization:token 
       }
     });
 
@@ -47,10 +52,11 @@ async function DeleteProps(id: string) {
     
     return (
         <>
-            <div className="flex flex-row m-4 items-center gap-4 ">
+            <div className="flex flex-row m-4 items-center gap-4  relative">
                 {contents?.map((content) => {
                     return <ContentCard OnDeleteFun={DeleteProps} content={content}/>
                 })}
+               {ShowMsg != "" && <div className=" absolute  top-0 right-0  w-60 h-8 bg-red-400 border text-black ">{ShowMsg}</div> } 
             </div>
         </>
     )
