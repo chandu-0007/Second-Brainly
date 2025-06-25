@@ -13,7 +13,7 @@ export const SideBar  = ({funcall}:SidebarProps) => {
   return (
   <div className="flex flex-col m-2 px-2 gap-y-4">
      <Link className="text-3xl mt-4 flex gap-x-1.5 font-bold mb-8" to="/courses">
-      <Logo/> 
+      {Logo(32, 32)}
       <span>Second Brain</span>
      </Link>
       <div id="Tweets" onClick={(e)=>funcall(e.currentTarget.id)} className="sidebar-com">

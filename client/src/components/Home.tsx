@@ -1,63 +1,82 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { ContentCard } from "./ContentCard"
-import type { contentProps } from "./ContentCard"
-interface resProps {
-    message: string,
-    contents: contentProps[],
-    success: boolean
-}
-const token = localStorage.getItem("token")
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { ContentCard } from "./ContentCard";
+import type { contentProps } from "./ContentCard";
+
+const token = localStorage.getItem("token");
+
 export const Home = () => {
-    const [contents, Setcontents] = useState<contentProps[]>([])
-    const [ShowMsg , SetShowMsg]  = useState<string>("")
-    useEffect(() => {
-        const fecthData = async () => {
-            const res = await axios.get<resProps>("http://localhost:3003/users/api/content", {
-                headers: {
-                  authorization:token
-                }
-            })
-            Setcontents(res.data.contents)
-        }
-        fecthData()
-    }, [])
- useEffect(() => {
-  if (ShowMsg) {
-    const timeout = setTimeout(() => SetShowMsg("112"), 3000);
-    return () => clearTimeout(timeout);
-  }
-}, [ShowMsg]);
+  const [contents, setContents] = useState<contentProps[]>([]);
+  const [msg, setMsg] = useState<{ text: string; type: "success" | "error" | ""; visible: boolean }>({
+    text: "",
+    type: "",
+    visible: false,
+  });
 
-async function DeleteProps(id: string) {
-  try {
-    const res = await axios.delete(`http://localhost:3003/users/api/content/${id}`, {
-      headers: {
-          authorization:token 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:3003/users/api/content", {
+          headers: { authorization: token },
+        });
+        setContents(res.data.contents);
+      } catch (error) {
+        showMessage("Failed to load content", "error");
       }
-    });
+    };
 
-    if (res.data?.success) {
-      SetShowMsg("Successfully deleted");
-    } else {
-      SetShowMsg("Failed to delete");
+    fetchData();
+  }, []);
+
+  const showMessage = (text: string, type: "success" | "error") => {
+    setMsg({ text, type, visible: true });
+    setTimeout(() => setMsg((prev) => ({ ...prev, visible: false })), 3000);
+  };
+
+  const deleteContent = async (_id: string) => {
+    const originalContents = [...contents];
+    // Optimistically update UI
+    setContents((prev) => prev.filter((item) => item._id !== _id));
+
+    try {
+      const res = await axios.delete(`http://localhost:3003/users/api/content/${_id}`, {
+        headers: { authorization: token },
+        data: {},
+      });
+
+      if (!res.data.success) {
+        // Rollback if deletion failed
+        setContents(originalContents);
+        showMessage("Deletion failed", "error");
+      } else {
+        showMessage("Deleted successfully", "success");
+      }
+    } catch (error) {
+      // Rollback on error
+      setContents(originalContents);
+      showMessage("Error deleting content", "error");
     }
+  };
 
-  } catch (error) {
-    console.error("Delete error:", error);
-    SetShowMsg("An error occurred while deleting");
-  }
-}
+  return (
+    <div className="relative m-4">
+      <div className="flex flex-wrap gap-4">
+        {contents.map((content) => (
+          <ContentCard key={content._id} content={content} OnDeleteFun={deleteContent} />
+        ))}
+      </div>
 
-    
-    return (
-        <>
-            <div className="flex flex-row m-4 items-center gap-4  relative">
-                {contents?.map((content) => {
-                    return <ContentCard OnDeleteFun={DeleteProps} content={content}/>
-                })}
-               {ShowMsg != "" && <div className=" absolute  top-0 right-0  w-60 h-8 bg-red-400 border text-black ">{ShowMsg}</div> } 
-            </div>
-        </>
-    )
-}
+      {/* Toast Message */}
+      {msg.visible && (
+        <div
+          className={`fixed top-4 right-4 px-4 py-2 rounded shadow-md ${
+            msg.type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+          }`}
+        >
+          {msg.text}
+        </div>
+      )}
+    </div>
+  );
+};
+

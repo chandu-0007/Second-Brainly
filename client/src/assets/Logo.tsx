@@ -1,5 +1,5 @@
- export const Logo = ()=>{
-    return <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64" fill="none">
+ export const Logo = (width:number , height:number)=>{
+    return <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 64 64" fill="none">
   <path
     d="M22 8c-6 0-10 4-10 10 0 3 1 4 1 6s-2 3-2 6 2 5 2 6-2 3-2 6 2 6 6 6h2v8c0 3 3 6 6 6s6-3 6-6V8h-9zM42 8c6 0 10 4 10 10 0 3-1 4-1 6s2 3 2 6-2 5-2 6 2 3 2 6-2 6-6 6h-2v8c0 3-3 6-6 6s-6-3-6-6V8h9z"
     stroke="#7C3AED"

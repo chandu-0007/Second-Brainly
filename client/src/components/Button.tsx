@@ -5,7 +5,7 @@ export interface ButtonProps {
     size : "sm" | "lg" | "md";
     text : string ; 
     OnClickHandler : ()=> void ; 
-    startIcon : ReactElement ;
+    startIcon? : ReactElement ;
 }
 export default function Button( props : ButtonProps){
     const {varaient, size , text , OnClickHandler , startIcon } = props 

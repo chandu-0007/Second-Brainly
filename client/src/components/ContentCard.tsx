@@ -6,7 +6,7 @@ import { VedioIcon } from "../Icons/VedioIcon"
 import { LinkIcon } from "../Icons/LInkIcon"
 import React, { useState } from "react";
 export interface contentProps {
-  id: string;
+  _id: string;
   link: string;
   type: string;
   title: string;
@@ -54,7 +54,7 @@ export const ContentCard = ({ content, OnDeleteFun }: cardPorps) => {
   };
 
   const confirmDelete = () => {
-    OnDeleteFun(content.id);
+    OnDeleteFun(content._id);
     setShowModal(false);
   };
 

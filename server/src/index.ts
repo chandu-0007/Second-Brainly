@@ -85,7 +85,6 @@ app.post("/users/login", async (req: Request, res: Response) => {
         const token = jwt.sign(
           { _id: exitUser._id },
           process.env.JWT_SECRET as string,
-          { expiresIn: '1h' }
         );
         res.status(200).json({
           message: "successfuly login ",
@@ -127,7 +126,7 @@ app.post("/users/api/content", async (req: Request, res: Response) => {
   if (contentDetails === null) {
     res.status(411).json({
       message: "Input is invalid ",
-      sucsess: false
+      success: false
     })
     return
   }
