@@ -9,15 +9,13 @@ import { Login } from './components/Login'
 import { useAuth } from './components/useAuth'
 import { useEffect, useState } from 'react'
 import { AddcontentForm } from './components/AddContent'
+import { ContentsTag } from './components/contentTag'
 function App() {
  const  OpenAddForm:()=>void = ()=>{
    setForm(true)
  }
  function ShareMethod():void {
-  console.log(" the method the shareMethod is called Now")
- }
- function siderBarfuc(e:string) {
-  console.log(e)
+  console.log(" the shareMethod is called Now")
  }
 const {isLogged,SetIsLogged} = useAuth()
   useEffect(()=>{
@@ -29,7 +27,7 @@ const [ShowFrom , setForm ] = useState<boolean>(false);
         <div className='flex flex-row'>
         {/* sideBar  */}
         <div className='bg-white  w-80 shadow-xl h-screen '>
-          <SideBar funcall={siderBarfuc}/>
+          <SideBar/>
         </div>
         {/* main  content page  */}
         <div className='p-8 bg-gray-50 w-full '>
@@ -50,6 +48,10 @@ const [ShowFrom , setForm ] = useState<boolean>(false);
                    
                   <Routes>
                      <Route path='/courses' element={<Home/>}></Route>
+                     <Route path='/content/tweets' element={<ContentsTag tag="tweets" />} />
+                     <Route path='/content/youtube' element={<ContentsTag tag="youtube" />} />
+                     <Route path='/content/link' element={<ContentsTag tag="link" />} />
+                     <Route path='/content/documents' element={<ContentsTag tag="document" />} />
                   </Routes>
           </div>
         </div>

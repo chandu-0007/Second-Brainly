@@ -194,6 +194,32 @@ app.get("/users/api/content",async (req : Request , res  : Response)=>{
       })
   }
 })
+app.get("/users/api/content/tags/:tag", async (req: Request, res: Response):Promise<void> => {
+  const tag = req.params.tag;
+  try {
+    const response  = await TagModel.findOne({ title: tag });
+    if (!response) {
+       res.status(404).json({
+        message: "Tag not found",
+        success: false
+      });
+      return ; 
+    }
+    const TagId = response._id;
+    const contents = await contnetModel.find({ userId: req.userId, tags: TagId });
+    res.status(200).json({
+      message: "return the cotent of the tags",
+      contents: contents,
+      success: true
+    });
+  } catch (error) {
+    res.status(411).json({
+      message: "error at the database",
+      error: error,
+      sucdess: false
+    });
+  }
+});
 app.delete("/users/api/content/:contentId",async (req:Request , res : Response)=>{
   const {contentId }= req.params ; 
   try{

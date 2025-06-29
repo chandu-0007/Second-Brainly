@@ -43,7 +43,7 @@ const TagsComponent = ({ tags }: { tags: string[] }) => (
   </div>
 );
 
-export const ContentCard = ({ content, OnDeleteFun }: cardPorps) => {
+export const ContentCard = ({ content, OnDeleteFun}: cardPorps) => {
   const [showModal, setShowModal] = useState(false);
 
   const typeKey = content.type.toLowerCase().trim() as ContentType;
@@ -60,9 +60,11 @@ export const ContentCard = ({ content, OnDeleteFun }: cardPorps) => {
 
   return (
     <>
-      <div className="bg-white flex  rounded-md flex-col shadow-2xl p-4 w-60 h-80 text-black">
+      <div className="bg-white flex  rounded-md flex-col shadow-2xl p-4 w-70 h-50 text-black">
         <div className="flex justify-between items-center mb-2">
-          <span>{IconComponent && <IconComponent />}</span>
+          <a href={content.link} target="_blank">
+            {IconComponent && <IconComponent />}
+          </a>
           <span className="text-lg font-bold truncate">{content.title}</span>
           <div className="flex gap-2 h-6 cursor-pointer">
             <span>
