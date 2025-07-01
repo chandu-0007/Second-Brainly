@@ -29,10 +29,7 @@ export const SideBar  =  ()=> {
        <LinkIcon/>
        <span>LInks</span>
       </Link>
-      <Link id="HashTag" to="/content/tags" className="sidebar-com">
-       <HasTagIcon/> 
-      <span>Tags</span>
-      </Link>
+      
   </div>
   )    
 }

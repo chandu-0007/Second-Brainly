@@ -60,7 +60,7 @@ export const ContentCard = ({ content, OnDeleteFun}: cardPorps) => {
 
   return (
     <>
-      <div className="bg-white flex  rounded-md flex-col shadow-2xl p-4 w-70 h-50 text-black">
+      <div className="bg-white flex  rounded-md flex-col shadow-2xl p-4 w-70 h-max-50 text-black">
         <div className="flex justify-between items-center mb-2">
           <a href={content.link} target="_blank">
             {IconComponent && <IconComponent />}

@@ -59,8 +59,8 @@ export const Home = () => {
   };
 
   return (
-    <div className="relative m-4">
-      <div className="flex flex-wrap gap-4">
+    <div className="relative  m-4">
+      <div className="flex flex-wrap snap-y snap-start overflow-auto gap-x-8 gap-y-4">
         {contents.map((content) => (
           <ContentCard key={content._id} content={content} OnDeleteFun={deleteContent} />
         ))}

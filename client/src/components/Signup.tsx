@@ -1,31 +1,55 @@
 import React, { useState } from "react";
-import { useAuth } from "./useAuth";
 import { Logo } from "../assets/Logo";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-export const Login = () => {
-  const navigate = useNavigate();
-  const { login, SetIsLogged } = useAuth(); // Proper destructuring
-  const [form, setForm] = useState({ email: "", password: "" });
+export const Signup = () => {
+ interface signInProps  {
+  username : string , 
+  age?:number,
+  email:string ,
+  password :string
+ }
+  const [form, setForm] = useState<signInProps>({ 
+     username:"",
+     email: "",
+     password: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
+ const goToLogin =()=>{
+  navigate("login");
+ }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(""); // clear previous errors
-    try {
-      await login(form.email, form.password);
-      SetIsLogged(true); 
-      navigate("/")
-    } catch (err: any) {
-      setError(err.message || "Login failed.");
+    try{
+        const res = await axios.post("http://localhost:3003/users/register",{
+            username : form.username ,
+            age:form.age,
+            email:form.email,
+            password:form.password
+        })
+        const data = res.data ; 
+        if(data.success){
+           setError(data.message);
+            goToLogin();
+        }else{
+            setError(data.message)
+            setForm({
+              username: "",
+              age: undefined,
+              email: "",
+              password: ""
+            })
+        }
+    }catch(errror){
+        
     }
+     
   };
-  const GoToSignUp =()=>{
-    navigate("/signup")
-  }
 
   return (
     <div className="bg-gray-100 w-screen h-screen flex items-center justify-center">
@@ -37,6 +61,28 @@ export const Login = () => {
           {Logo(32, 32)}
           <span className="text-xl font-semibold text-gray-800">Second Brain</span>
         </div>
+          
+          <label htmlFor="username" className="w-full text-sm text-gray-700">username</label>
+        <input
+          id="username"
+          type="username"
+          name="username"
+          placeholder="Enter your username"
+          className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={form.username}
+          onChange={handleChange}
+        /> 
+         
+         <label htmlFor="age" className="w-full text-sm text-gray-700">age</label>
+        <input
+          id="age"
+          type="age"
+          name="age"
+          placeholder="Enter your age"
+          className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={form.age}
+          onChange={handleChange}
+        />
 
         <label htmlFor="email" className="w-full text-sm text-gray-700">Email</label>
         <input
@@ -59,16 +105,15 @@ export const Login = () => {
           value={form.password}
           onChange={handleChange}
         />
-
         <div className="flex gap-2">
-          <p>If you doesn't hava a account </p>
-          <span className="hover:cursor-pointer text-indigo-500 hover:text-mg transition-all" onClick={GoToSignUp}> Register Here</span>
+          <p>If you already Register</p>
+          <span className="hover:cursor-pointer text-indigo-500 hover:text-xl transition-all" onClick={goToLogin}> LogIn Here</span>
         </div>
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600 transition"
         >
-          Login
+          Register
         </button>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
