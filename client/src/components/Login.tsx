@@ -18,7 +18,7 @@ export const Login = () => {
     try {
       await login(form.email, form.password);
       SetIsLogged(true); 
-      navigate("/")
+      navigate("/home")
     } catch (err: any) {
       setError(err.message || "Login failed.");
     }

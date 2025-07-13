@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const data = response.data;
     console.log(data)
-    if (data?.message) {
+    if (data?.message.success) {
       SetIsLogged(true);
       setUser(email);
       setToken(data.token);

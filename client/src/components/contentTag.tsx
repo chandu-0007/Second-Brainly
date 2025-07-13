@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ContentCard } from "./ContentCard";
-import type { contentProps } from "./ContentCard";
+import type { ContentProps } from "./ContentCard";
 
 type ContentsTagProps = {
   tag: string;
@@ -10,7 +10,7 @@ type ContentsTagProps = {
 const token = localStorage.getItem("token");
 
 export const ContentsTag: React.FC<ContentsTagProps> = ({ tag }) => {
-  const [contents, setContents] = useState<contentProps[]>([]);
+  const [contents, setContents] = useState<ContentProps[]>([]);
   const [msg, setMsg] = useState<{
     text: string;
     type: "success" | "error" | "";
@@ -61,7 +61,6 @@ export const ContentsTag: React.FC<ContentsTagProps> = ({ tag }) => {
       showMessage("Error deleting content", "error");
     }
   };
-
   return (
     <div className="relative m-4">
       <div className="flex flex-wrap gap-4">
@@ -69,7 +68,7 @@ export const ContentsTag: React.FC<ContentsTagProps> = ({ tag }) => {
           <ContentCard
             key={content._id}
             content={content}
-            OnDeleteFun={deleteContent}
+            onDelete={deleteContent}
           />
         ))}
       </div>

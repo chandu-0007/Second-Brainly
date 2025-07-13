@@ -5,9 +5,13 @@ import type { ContentProps } from "./ContentCard";
 
 const token = localStorage.getItem("token");
 
-export const Home = () => {
+export const SharedContent = () => {
   const [contents, setContents] = useState<ContentProps[]>([]);
-  const [msg, setMsg] = useState<{ text: string; type: "success" | "error" | ""; visible: boolean }>({
+  const [msg, setMsg] = useState<{
+    text: string;
+    type: "success" | "error" | "";
+    visible: boolean;
+  }>({
     text: "",
     type: "",
     visible: false,
@@ -16,7 +20,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:3003/users/api/content", {
+        const res = await axios.get(`http://localhost:3003/users/content/share`, {
           headers: { authorization: token },
         });
         setContents(res.data.contents);
@@ -26,43 +30,26 @@ export const Home = () => {
     };
 
     fetchData();
-  }, []);
+  },); 
 
   const showMessage = (text: string, type: "success" | "error") => {
     setMsg({ text, type, visible: true });
     setTimeout(() => setMsg((prev) => ({ ...prev, visible: false })), 3000);
   };
 
-  const deleteContent = async (_id: string) => {
-    const originalContents = [...contents];
-    // Optimistically update UI
-    setContents((prev) => prev.filter((item) => item._id !== _id));
-
-    try {
-      const res = await axios.delete(`http://localhost:3003/users/api/content/${_id}`, {
-        headers: { authorization: token },
-        data: {},
-      });
-
-      if (!res.data.success) {
-        // Rollback if deletion failed
-        setContents(originalContents);
-        showMessage("Deletion failed", "error");
-      } else {
-        showMessage("Deleted successfully", "success");
-      }
-    } catch (error) {
-      // Rollback on error
-      setContents(originalContents);
-      showMessage("Error deleting content", "error");
-    }
-  };
+  function deleteContent(){
+    
+  }
 
   return (
-    <div className="relative  m-4">
-      <div className="flex flex-wrap snap-y snap-start overflow-auto gap-x-8 gap-y-4">
+    <div className="relative m-4">
+      <div className="flex flex-wrap gap-4">
         {contents.map((content) => (
-          <ContentCard key={content._id} content={content} onDelete={deleteContent} />
+          <ContentCard 
+            key={content._id}
+            content={content}
+            onDelete={deleteContent}
+          />
         ))}
       </div>
 
@@ -79,4 +66,3 @@ export const Home = () => {
     </div>
   );
 };
-

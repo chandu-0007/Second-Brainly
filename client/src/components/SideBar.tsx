@@ -1,6 +1,5 @@
 import { Logo } from "../assets/Logo";
 import { DocumentIcon } from "../Icons/DocumentIcon"
-import { HasTagIcon } from "../Icons/HasTagIcon"
 import { LinkIcon } from "../Icons/LInkIcon"
 import { TweetsIcon } from "../Icons/TweetsIcon";
 import { VedioIcon } from "../Icons/VedioIcon"
@@ -9,7 +8,7 @@ export const SideBar  =  ()=> {
 
   return (
   <div className="flex flex-col m-2 px-2 gap-y-4">
-     <Link className="text-3xl mt-4 flex gap-x-1.5 font-bold mb-8" to="/courses">
+     <Link className="text-3xl mt-4 flex gap-x-1.5 font-bold mb-8" to="/home">
       {Logo(32, 32)}
       <span>Second Brain</span>
      </Link>

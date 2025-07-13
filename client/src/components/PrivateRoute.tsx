@@ -5,5 +5,5 @@ import { useAuth } from "./useAuth";
 
 export function PrivateRoute({ children }: { children: React.ReactElement }) {
   const { isLogged } = useAuth();
-  return isLogged ? children : <Navigate to="/login" />;
+  return isLogged ? children : <Navigate to="/" />;
 }

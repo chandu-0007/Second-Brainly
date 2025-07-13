@@ -1,6 +1,12 @@
 @import "tailwindcss";
+
+/* Tailwind layers still go here */
 @layer components {
   .sidebar-com {
-    @apply flex gap-6 hover:bg-gray-200 rounded-md my-1 text-lg pl-4 items-center mt-2   ;
+    @apply flex gap-6 rounded-md my-1 text-lg pl-4 items-center mt-2;
+  }
+  .sidebar-com:hover{
+    @apply bg-black text-white;
   }
 }
+

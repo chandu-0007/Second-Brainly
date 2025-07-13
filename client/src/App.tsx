@@ -4,34 +4,45 @@ import { ShareIcon } from './Icons/ShareIcon'
 import { PlusIcon } from './Icons/PlusIcon'
 import { SideBar } from './components/SideBar'
 import { Home } from './components/Home'
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Login } from './components/Login'
 import { useAuth } from './components/useAuth'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AddcontentForm } from './components/AddContent'
 import { ContentsTag } from './components/contentTag'
 import { PrivateRoute } from './components/PrivateRoute';
 import { Signup } from "./components/Signup"
-
+import { LandPage } from './components/LandingPage'
+import {SharedContent} from "./components/SharedContent"
 function App() {
   const { isLogged } = useAuth();
-  const [showForm, setForm] = useState<boolean>(false);
+  const [showForm, setForm] = useState<boolean>(false);    
+  const navigate = useNavigate();
+
+useEffect(() => {
+  if (isLogged) {
+    navigate("/home");
+  } else {
+    navigate("/");
+  }
+}, [isLogged]);
 
   function openAddForm() {
     setForm(true);
   }
-
-  function shareMethod() {
-    console.log("ShareMethod is called now");
-  }
+   function GetSharedContent(){
+    navigate("/content/share")
+   }
 
   return (
     <div className="relative h-screen">
       <Routes>
         {/* Public routes */}
+        
+        <Route path='/' element={<LandPage/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
+         
         {/* Protected routes */}
         <Route
           path="/*"
@@ -52,7 +63,7 @@ function App() {
                       <Button
                         varaient="secondary"
                         size="lg"
-                        OnClickHandler={shareMethod}
+                        OnClickHandler={GetSharedContent}
                         text="Share Brain"
                         startIcon={<ShareIcon />}
                       />
@@ -67,13 +78,14 @@ function App() {
                   </div>
                   <div className="m-6 w-full h-full relative overflow-y-auto">
                     <Routes>
-                      <Route path="/" element={<Home />} />
+                      <Route path="/home" element={<Home />} />
                       <Route path="/content/tweets" element={<ContentsTag tag="tweets" />} />
                       <Route path="/content/youtube" element={<ContentsTag tag="youtube" />} />
                       <Route path="/content/link" element={<ContentsTag tag="link" />} />
                       <Route path="/content/documents" element={<ContentsTag tag="document" />} />
+                      <Route path="/content/shared"/>
                       {/* fallback */}
-                      <Route path="*" element={<Navigate to="/" />} />
+                      <Route path="*" element={<SharedContent/>} />
                     </Routes>
                   </div>
                 </div>
@@ -90,7 +102,7 @@ function App() {
         />
       </Routes>
     </div>
-  );
+      );
 }
 
-export default App;
+      export default App;
