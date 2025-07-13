@@ -1,9 +1,10 @@
-import { run, userModel, TagModel, contnetModel } from "./db";
+import { run, userModel, TagModel, contnetModel, SharedModel} from "./db";
 import express, { Response, Request } from "express"
 import dotenv, { parse } from "dotenv"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { authMiddleware } from "./auth";
+import mongoose from "mongoose";
 dotenv.config()
 import { z } from "zod"
 import { readBuilderProgram } from "typescript";
@@ -89,7 +90,7 @@ app.post("/users/login", async (req: Request, res: Response) => {
         res.status(200).json({
           message: "successfuly login ",
           token: token,
-          success: false
+          success: true
         })
         return;
       } else {
@@ -221,7 +222,7 @@ app.get("/users/api/content/tags/:tag", async (req: Request, res: Response):Prom
   }
 });
 app.delete("/users/api/content/:contentId",async (req:Request , res : Response)=>{
-  const {contentId }= req.params ; 
+  const {contentId}= req.params ; 
   try{
      const findcontent =  await contnetModel.findOne({_id:contentId, userId: req.userId })
      if(!findcontent){
@@ -240,6 +241,90 @@ app.delete("/users/api/content/:contentId",async (req:Request , res : Response)=
       message: "Proble while  deleting the content in the database",
       successs : false 
     })
+  }
+})
+
+app.post("/users/content/share", async (req: Request, res: Response): Promise<void> => {
+  const data = req.body;
+  console.log(data);
+  if (!data.shareTo || !data.contentId) {
+    res.status(400).json({
+      message: "shareTo and contentId are required",
+      success: false,
+    });
+    return;
+  }
+
+  try {
+    const recipient = await userModel.findOne({ username: data.shareTo });
+    if (!recipient) {
+      res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+      return;
+    }
+
+    const currentUser = await userModel.findById(req.userId);
+    if (!currentUser) {
+      res.status(401).json({
+        message: "Unauthorized",
+        success: false,
+      });
+      return;
+    }
+
+    // CONVERT to ObjectId
+    const contentId = new mongoose.Types.ObjectId(data.contentId);
+
+    const alreadyShared = await SharedModel.findOne({
+      shareTo: recipient._id,
+      shareBy: currentUser._id,
+      contentId: contentId,
+    });
+    if (alreadyShared) {
+      res.status(400).json({
+        message: "Content already shared with this user",
+        success: false,
+      });
+      return;
+    }
+
+    await SharedModel.create({
+      shareTo: recipient._id,
+      shareBy: currentUser._id,
+      contentId: contentId,
+    });
+
+    res.status(200).json({
+      message: "Successfully shared",
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Got an error",
+      success: false,
+    });
+  }
+});
+
+
+app.get("/users/content/share",async(req:Request , res:Response)=>{
+  try{
+      const contents = await SharedModel.find({shareTo : req.userId})
+      .populate('shareBy','username')
+      .populate('contentId')
+      .lean();
+      res.status(200).json({
+        message: "The list of shared content",
+        contents: contents
+      });
+  }catch(error){
+     res.status(411).json({
+      message: "Error occurred while fetching shared content",
+      error: error
+    });
   }
 })
 app.listen(process.env.PORT, () => {

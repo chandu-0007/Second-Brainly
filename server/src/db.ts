@@ -1,5 +1,6 @@
 import mongoose ,{Schema , model , Document, Types }  from "mongoose";
 import dotenv from 'dotenv';
+import { string } from "zod"; 
 dotenv.config(); 
 interface Iuser extends Document {
     username  : string , 
@@ -15,7 +16,7 @@ const userSchema = new Schema<Iuser>({
   password:{type:String}
 })
 export const userModel = model<Iuser>("User",userSchema); 
- 
+
 // TagSchema and tag model 
 const TagSchema = new Schema({
   title : {type : String , required : true , unique : true}
@@ -33,6 +34,15 @@ const contentSchema = new Schema({
   userId : {type :mongoose.Types.ObjectId , ref: userModel,required : true }
 })
 export const contnetModel = model("Content",contentSchema)
+
+ 
+//SharedContent 
+const SharedSchema = new mongoose.Schema({
+  shareBy: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+  shareTo: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+  contentId: { type:mongoose.Types.ObjectId, ref: 'Content', required: true }
+});
+export const SharedModel = model("ShareContent",SharedSchema);
 
 // function to connect the mongodb 
 export async function run() {
