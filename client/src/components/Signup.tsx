@@ -20,7 +20,7 @@ export const Signup = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
  const goToLogin =()=>{
-  navigate("login");
+  navigate("/login");
  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

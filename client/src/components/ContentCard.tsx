@@ -56,7 +56,7 @@ export const ContentCard = ({ content, onDelete }: CardProps) => {
     success: false,
   });
 
-  const typeKey = content.type.toLowerCase().trim() as ContentType;
+  const typeKey = content.type as ContentType;
   const IconComponent = startIcon[typeKey] || DocumentIcon;
 
   const handleDeleteClick = () => {
@@ -211,13 +211,30 @@ export const ContentCard = ({ content, onDelete }: CardProps) => {
       {/* user feedback */}
       {showMsg.show && (
         <div
-          className={`fixed top-4 right-4 p-2 rounded text-white ${
+          className={`fixed flex top-4 right-4 p-2 rounded z-50 text-white ${
             showMsg.success ? "bg-green-500" : "bg-red-500"
           }`}
         >
           {showMsg.message}
+          <span
+            className="px-2 text-white text-xl cursor-pointer  "
+            onClick={() => {
+              setShowMsg({ message: "", show: false, success: false });
+            }}
+          >
+          <Cancel/>
+          </span>
         </div>
       )}
     </>
   );
 };
+
+
+function Cancel(){
+  return<>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+</svg>
+  </>
+}
