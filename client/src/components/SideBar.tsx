@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 export const SideBar  =  ()=> {
 
   return (
-  <div className="flex flex-col m-2 px-2 gap-y-4">
+    <div className="flex-col justify-between">
+     <div className="flex flex-col m-2 px-2 gap-y-4">
      <Link className="text-3xl mt-4 flex gap-x-1.5 font-bold mb-8" to="/home">
       {Logo(32, 32)}
       <span>Second Brain</span>
@@ -28,7 +29,7 @@ export const SideBar  =  ()=> {
        <LinkIcon/>
        <span>LInks</span>
       </Link>
-      
+  </div>
   </div>
   )    
 }

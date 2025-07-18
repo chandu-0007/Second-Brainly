@@ -19,15 +19,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLogged, SetIsLogged] = useState<boolean>(!!tokenFromStorage);
 
   const login = async (email: string, password: string) => {
-    console.log(email + password);
     const response = await axios.post("http://localhost:3003/users/login", {
       email,
       password
     });
 
     const data = response.data;
-    console.log(data)
-    if (data?.message.success) {
+    if (data?.success) {
       SetIsLogged(true);
       setUser(email);
       setToken(data.token);

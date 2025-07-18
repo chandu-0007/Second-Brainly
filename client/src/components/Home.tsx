@@ -3,7 +3,6 @@ import axios from "axios";
 import { ContentCard } from "./ContentCard";
 import type { ContentProps } from "./ContentCard";
 
-const token = localStorage.getItem("token");
 
 export const Home = () => {
   const [contents, setContents] = useState<ContentProps[]>([]);
@@ -16,6 +15,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("token");
         const res = await axios.get("http://localhost:3003/users/api/content", {
           headers: { authorization: token },
         });
@@ -39,6 +39,7 @@ export const Home = () => {
     setContents((prev) => prev.filter((item) => item._id !== _id));
 
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.delete(`http://localhost:3003/users/api/content/${_id}`, {
         headers: { authorization: token },
         data: {},

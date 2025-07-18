@@ -13,36 +13,36 @@ import { ContentsTag } from './components/contentTag'
 import { PrivateRoute } from './components/PrivateRoute';
 import { Signup } from "./components/Signup"
 import { LandPage } from './components/LandingPage'
-import {SharedContent} from "./components/SharedContent"
+import { SharedContent } from "./components/SharedContent"
 function App() {
   const { isLogged } = useAuth();
-  const [showForm, setForm] = useState<boolean>(false);    
+  const [showForm, setForm] = useState<boolean>(false);
   const navigate = useNavigate();
 
-useEffect(() => {
-  if (isLogged) {
-    navigate("/home");
-  } else {
-    navigate("/");
-  }
-}, [isLogged]);
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/home");
+    } else {
+      navigate("/");
+    }
+  }, [isLogged]);
 
   function openAddForm() {
     setForm(true);
   }
-   function GetSharedContent(){
+  function GetSharedContent() {
     navigate("/content/share")
-   }
+  }
 
   return (
     <div className="relative h-screen">
       <Routes>
         {/* Public routes */}
-        
-        <Route path='/' element={<LandPage/>}></Route>
+
+        <Route path='/' element={<LandPage />}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-         
+
         {/* Protected routes */}
         <Route
           path="/*"
@@ -74,6 +74,11 @@ useEffect(() => {
                         text="Add Content"
                         startIcon={<PlusIcon />}
                       />
+                      <div className='flex items-center justify-center mx-2 '>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                          <path fill-rule="evenodd" d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                   <div className="m-6 w-full h-full relative overflow-y-auto">
@@ -83,9 +88,9 @@ useEffect(() => {
                       <Route path="/content/youtube" element={<ContentsTag tag="youtube" />} />
                       <Route path="/content/link" element={<ContentsTag tag="link" />} />
                       <Route path="/content/documents" element={<ContentsTag tag="document" />} />
-                      <Route path="/content/shared"/>
+                      <Route path="/content/shared" />
                       {/* fallback */}
-                      <Route path="*" element={<SharedContent/>} />
+                      <Route path="*" element={<SharedContent />} />
                     </Routes>
                   </div>
                 </div>
@@ -102,7 +107,7 @@ useEffect(() => {
         />
       </Routes>
     </div>
-      );
+  );
 }
 
-      export default App;
+export default App;

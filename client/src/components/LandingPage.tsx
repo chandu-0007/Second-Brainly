@@ -67,6 +67,56 @@ export const LandPage = () => {
         <div onClick={()=>{nav("/signup")}} className="w-full h-[600px] bg-white border-blue-500 shadow-blue-300 shadow-2xl flex items-center justify-center rounded-2xl  ">
           <img src={appimg} className="w-full h-full rounded-2xl"></img>
         </div>
+        <div className=" mt-10 "> 
+        </div>
+      </div>
+      <div className=" flex-col px-[120px] h-100  bg-white ">
+         <div className="flex justify-center items-center text-gray-600 font-[Manrope]  pt-10 text-4xl ">Build Your Second Brain in 3 Simple Steps </div>
+         <div className="flex justify-evenly items-center mt-10 ">
+          <div className="w-80 h-60 bg-gray-50 rounded-2xl  shadow-lg shadow-blue-500  ">
+             <div className="p-2 text-lg bg-indigo-400  rounded-t-2xl">
+              <span className="text-xl text-white">Step </span>
+              <span className="rounded-full text-xl text-white">1</span>
+             </div>
+             <div className="p-4 text-lg">
+              <h3 className="text-xl  text-indigo-600  font-[Manrope]">Save Any Link </h3>
+              <ul className="list-disc list-inside">
+              <li>Capture Youtube videos , tweets articles , and any useful links </li>
+             <li>Input Field Illustration</li>
+             <li>Button :"Save to Second Brain"</li> 
+              </ul>
+             </div>
+          </div>
+          <div className="w-80 h-60 bg-gray-50 rounded-2xl  shadow-lg shadow-blue-500  ">
+             <div className="p-2 text-lg bg-indigo-400  rounded-t-2xl">
+              <span className="text-xl text-white">Step </span>
+              <span className="rounded-full text-xl text-white">2</span>
+             </div>
+             <div className="p-4 text-lg">
+              <h3 className="text-xl  text-indigo-600  font-[Manrope]">Auto-Organize & Enrich</h3>
+              <ul className="list-disc list-inside">
+              <li>We fetch titles, thumbnails, and summaries. You can tag, categorize, and take notes</li>
+             <li>Card preview with metadata, tags, and note input</li>
+              </ul>
+             </div>
+          </div>
+          <div className="w-80 h-60 bg-gray-50 rounded-2xl  shadow-lg shadow-blue-500  ">
+             <div className="p-2 text-lg bg-indigo-400  rounded-t-2xl">
+              <span className="text-xl text-white">Step </span>
+              <span className="rounded-full text-xl text-white">3</span>
+             </div>
+             <div className="p-4 text-lg">
+               <h3 className="text-xl  text-indigo-600  font-[Manrope]">Search & Use Anytime</h3>
+              <ul className="list-disc list-inside">
+              <li>Quickly search your saved knowledge. Filter by tags, sources, or keywords </li>
+             <li> “Revisit, reflect, reuse.”</li>
+              </ul>
+             </div>
+          </div>
+         </div>
+      </div>
+      <div className="px-[120px] bg-black h-60 ">
+        
       </div>
     </div>
   )
