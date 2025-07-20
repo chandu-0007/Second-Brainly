@@ -4,12 +4,6 @@ A personal knowledge management app that allows users to store and organize info
 
 ---
 
-## 🌐 Live Demo
-
-*(Add link if deployed)*
-
----
-
 ## 📌 Features
 
 - Save and organize:
