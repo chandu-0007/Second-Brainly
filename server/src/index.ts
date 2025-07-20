@@ -7,7 +7,7 @@ import { authMiddleware } from "./auth";
 import mongoose from "mongoose";
 dotenv.config()
 import { z } from "zod"
-import { readBuilderProgram } from "typescript";
+import { findAncestor, readBuilderProgram } from "typescript";
 import { ObjectId } from "mongoose";
 import cors from "cors"
 const userObject = z.object({
@@ -23,7 +23,6 @@ app.use(express.json())
 run()
 app.post("/users/register", async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const userDetails: user = req.body;
     const response = userObject.safeParse(userDetails);
     if (response.success) {
@@ -35,10 +34,7 @@ app.post("/users/register", async (req: Request, res: Response) => {
         })
         return;
       } else {
-        console.log("befor  hashing the password")
         const hashpassword = await bcrypt.hash(userDetails.password, 10)
-        console.log("after hashing the password")
-        console.log(hashpassword);
         await userModel.insertOne({
           username: userDetails.username,
           email: userDetails.email,
@@ -113,9 +109,26 @@ app.post("/users/login", async (req: Request, res: Response) => {
   }
 })
 app.use(authMiddleware as express.RequestHandler)
+app.get("/users/info" ,async (req :Request , res:Response)=>{
+  const userId = req.userId;
+  try{
+   const info = await userModel.findOne({_id:userId});
+   if(info){
+    res.status(200).json({
+      message:"successfully get the user details",
+      details:info ,
+      success:true 
+    })
+   }
+  }catch(err){
+      res.status(200).json({
+      message:"Got an error ",
+      success:false 
+    })
+  }
+})
 app.post("/users/api/content", async (req: Request, res: Response) => {
   const userId = req.userId;
-  console.log(userId)
   interface contentType {
     link: string,
     type: string,
@@ -141,7 +154,6 @@ app.post("/users/api/content", async (req: Request, res: Response) => {
         return tag._id; 
       })
     );
-     console.log(TagId);
     await contnetModel.create({
       link: contentDetails.link,
       type: contentDetails.type,
@@ -172,8 +184,6 @@ app.get("/users/api/content",async (req : Request , res  : Response)=>{
    .populate('userId','username')
    .populate('tags','title')
    .lean()
-
-   console.log(contents);
     const result = contents.map((content) => {
       return {
         ...content,
@@ -246,7 +256,6 @@ app.delete("/users/api/content/:contentId",async (req:Request , res : Response)=
 
 app.post("/users/content/share", async (req: Request, res: Response): Promise<void> => {
   const data = req.body;
-  console.log(data);
   if (!data.shareTo || !data.contentId) {
     res.status(400).json({
       message: "shareTo and contentId are required",

@@ -4,27 +4,38 @@ import { ContentCard } from "./ContentCard";
 import type { ContentProps } from "./ContentCard";
 
 const token = localStorage.getItem("token");
-
 export const SharedContent = () => {
-  
-  // const [contents, setContents] = useState<ContentProps[]>([]);
+  const [content , Setcontet] = useState<ContentProps[]>([]) ;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`http://localhost:3003/users/content/share`, {
           headers: { authorization: token },
         });
-        console.log(res.data);
+        console.log(res.data.contents);
+        Setcontet(res.data.contents.map((items :any)=>({
+           ...items.contentId , 
+            shareBy :items.shareBy.username
+        })))
+        console.log(content)
       } catch (error) {
         alert("Failed to load content");
       }
     };
 
     fetchData();
-  },); 
+  },[]); 
 
-
+ function deleteContent(){
+  console.log("deleting the contents")
+ }
   return (
-    <>shared content</>
+            <div className="relative  m-4">
+      <div className="flex flex-wrap snap-y snap-start overflow-auto gap-x-8 gap-y-4">
+        {content.map((con) => (
+          <ContentCard key={con._id} content={con} onDelete={deleteContent} />
+        ))}
+      </div>
+      </div>
   );
 };

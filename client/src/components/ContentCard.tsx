@@ -16,6 +16,7 @@ export interface ContentProps {
   tags: string[];
   Description: string;
   userId: string;
+  shareBy?:string;
 }
 
 interface CardProps {
@@ -83,9 +84,6 @@ export const ContentCard = ({ content, onDelete }: CardProps) => {
   }
   try {
     const token = localStorage.getItem("token");
-    console.log("token", token);
-    console.log("sharing to", username, "contentId", content._id);
-
     const res = await axios.post(
   "http://localhost:3003/users/content/share",
   {
@@ -99,7 +97,6 @@ export const ContentCard = ({ content, onDelete }: CardProps) => {
     },
   }
 );
-
     const data = res.data;
     if (data) {
       setShowMsg({
@@ -146,6 +143,7 @@ export const ContentCard = ({ content, onDelete }: CardProps) => {
         </div>
         <span className="text-sm mb-1">{content.Description}</span>
         <span className="text-xs text-gray-500">{`type: ${content.type}`}</span>
+        {content.shareBy && <span>{`shareBy :${content.shareBy}`}</span>}
         <TagsComponent tags={content.tags} />
       </div>
 
