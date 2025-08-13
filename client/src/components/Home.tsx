@@ -16,7 +16,7 @@ export const Home = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:3003/users/api/content", {
+        const res = await axios.get("https://second-brainly-8343.onrender.com/users/api/content", {
           headers: { authorization: token },
         });
         setContents(res.data.contents);
@@ -40,7 +40,7 @@ export const Home = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(`http://localhost:3003/users/api/content/${_id}`, {
+      const res = await axios.delete(`https://second-brainly-8343.onrender.com/users/api/content/${_id}`, {
         headers: { authorization: token },
         data: {},
       });

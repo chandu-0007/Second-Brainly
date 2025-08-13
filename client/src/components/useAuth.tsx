@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLogged, SetIsLogged] = useState<boolean>(!!tokenFromStorage);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post("http://localhost:3003/users/login", {
+    const response = await axios.post("https://second-brainly-8343.onrender.com/users/login", {
       email,
       password
     });

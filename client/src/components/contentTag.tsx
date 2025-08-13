@@ -24,7 +24,7 @@ export const ContentsTag: React.FC<ContentsTagProps> = ({ tag }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3003/users/api/content/tags/${tag}`, {
+        const res = await axios.get(`https://second-brainly-8343.onrender.com/users/api/content/tags/${tag}`, {
           headers: { authorization: token },
         });
         setContents(res.data.contents);
@@ -46,7 +46,7 @@ export const ContentsTag: React.FC<ContentsTagProps> = ({ tag }) => {
     setContents((prev) => prev.filter((item) => item._id !== _id));
 
     try {
-      const res = await axios.delete(`http://localhost:3003/users/api/content/${_id}`, {
+      const res = await axios.delete(`https://second-brainly-8343.onrender.com/users/api/content/${_id}`, {
         headers: { authorization: token },
       });
 

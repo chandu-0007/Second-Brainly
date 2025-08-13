@@ -26,7 +26,7 @@ export const Signup = () => {
     e.preventDefault();
     setError(""); // clear previous errors
     try{
-        const res = await axios.post("http://localhost:3003/users/register",{
+        const res = await axios.post("https://second-brainly-8343.onrender.com/users/register",{
             username : form.username ,
             age:form.age,
             email:form.email,

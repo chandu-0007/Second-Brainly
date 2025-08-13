@@ -85,7 +85,7 @@ export const ContentCard = ({ content, onDelete }: CardProps) => {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.post(
-  "http://localhost:3003/users/content/share",
+  "https://second-brainly-8343.onrender.com/users/content/share",
   {
     shareTo: username,
     contentId: content._id,

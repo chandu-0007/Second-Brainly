@@ -9,7 +9,7 @@ export const SharedContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3003/users/content/share`, {
+        const res = await axios.get(`https://second-brainly-8343.onrender.com/users/content/share`, {
           headers: { authorization: token },
         });
         console.log(res.data.contents);

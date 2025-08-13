@@ -40,7 +40,7 @@ export const AddcontentForm = ({ OnClickHandler }: Props) => {
       const token = localStorage.getItem('token');
       console.log(token)
       const res = await axios.post(
-        "http://localhost:3003/users/api/content",
+        "https://second-brainly-8343.onrender.com/users/api/content",
         {
           link: form.link,
           type: form.type,
