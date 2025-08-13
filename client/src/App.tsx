@@ -32,7 +32,7 @@ function App() {
   useEffect(() => {
        const getDetails = async ()=>{
         const token = localStorage.getItem("token");
-        const info = await axios.get("http://localhost:3003/users/info",{
+        const info = await axios.get("https://second-brainly-8343.onrender.com/users/info",{
           headers :{authorization: token}
         });
         if(info){
