@@ -28,7 +28,7 @@ export const Signup = () => {
     try{
         const res = await axios.post("https://second-brainly-8343.onrender.com/users/register",{
             username : form.username ,
-            age:form.age,
+            age:Number(form.age) ,
             email:form.email,
             password:form.password
         })
@@ -46,7 +46,7 @@ export const Signup = () => {
             })
         }
     }catch(errror){
-        
+        alert("Something went wrong , please try again later")
     }
      
   };
@@ -76,7 +76,7 @@ export const Signup = () => {
          <label htmlFor="age" className="w-full text-sm text-gray-700">age</label>
         <input
           id="age"
-          type="age"
+          type="number"
           name="age"
           placeholder="Enter your age"
           className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-400"

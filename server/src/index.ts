@@ -38,7 +38,7 @@ app.post("/users/register", async (req: Request, res: Response) => {
         await userModel.insertOne({
           username: userDetails.username,
           email: userDetails.email,
-          age: userDetails.age ? userDetails.age : null,
+          age: userDetails.age ? Number(userDetails.age): null,
           password: hashpassword
         }).then(() => {
           res.status(200).json({
