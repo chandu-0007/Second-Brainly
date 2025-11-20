@@ -26,6 +26,11 @@ export const Signup = () => {
     e.preventDefault();
     setError(""); // clear previous errors
     try{
+      if(!form.username || !form.email || !form.password){
+        setError("Please fill all the required fields")
+        alert("Please fill all the required fields")
+        return ;
+      }
         const res = await axios.post("https://second-brainly-8343.onrender.com/users/register",{
             username : form.username ,
             age:Number(form.age) ,
